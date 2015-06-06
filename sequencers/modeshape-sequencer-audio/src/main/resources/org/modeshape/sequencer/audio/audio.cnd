@@ -28,10 +28,17 @@
 //------------------------------------------------------------------------------
 
 [audio:metadata] > nt:unstructured, mix:mimeType
+  - audio:formatName (string) mandatory
+    < 'mp3', 'ogg', 'flac', 'asf', 'mp4', 'real', 'wav'
+  - audio:bitrate (long)
+  - audio:sampleRate (long)
+  - audio:channels (string)
+  - audio:length (long)
+  + audio:tag (audio:tag) = audio:tag
+
+[audio:tag] > nt:unstructured
   - audio:title (string)
   - audio:author (string)
   - audio:album (string)
-  - audio:year (long)
+  - audio:year (string)
   - audio:comment (string)
-
-

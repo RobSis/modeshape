@@ -17,6 +17,7 @@ package org.modeshape.sequencer.audio;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.InputStream;
 
@@ -33,7 +34,17 @@ public class AudioMetadataTest {
 
     @Test
     public void shouldBeAbleToLoadMp3() throws Exception {
-        AudioMetadata metadata = AudioMetadata.instance(getTestAudio("sample1.mp3"));
+        AudioMetadata metadata = new AudioMetadata();
+
+        metadata.setInput(getTestAudio("sample1.mp3"));
+        assertTrue(metadata.check());
+
+        assertThat(metadata.getFormatName(), is("mp3"));
+        assertThat(metadata.getMimeType(), is("audio/mpeg"));
+        assertThat(metadata.getBitrate(), is(64L));
+        assertThat(metadata.getSampleRate(), is(44100));
+        assertThat(metadata.getChannels(), is("Joint Stereo"));
+        assertThat(metadata.getLength(), is(2));
         assertThat(metadata.getAlbum(), is("Badwater Slim Performs Live"));
         assertThat(metadata.getAuthor(), is("Badwater Slim"));
         assertThat(metadata.getComment(), is("This is a test audio file."));
@@ -41,4 +52,43 @@ public class AudioMetadataTest {
         assertThat(metadata.getYear(), is("2008"));
     }
 
+    @Test
+    public void shouldBeAbleToLoadOggVorbis() throws Exception {
+        AudioMetadata metadata = new AudioMetadata();
+
+        metadata.setInput(getTestAudio("vorbis.ogg"));
+        assertTrue(metadata.check());
+
+        assertThat(metadata.getFormatName(), is("ogg"));
+        assertThat(metadata.getMimeType(), is("audio/x-vorbis+ogg"));
+        assertThat(metadata.getBitrate(), is(112L));
+        assertThat(metadata.getSampleRate(), is(44100));
+        assertThat(metadata.getChannels(), is("2"));
+        assertThat(metadata.getLength(), is(2));
+        assertThat(metadata.getAlbum(), is("Badwater Slim Performs Live"));
+        assertThat(metadata.getAuthor(), is("Badwater Slim"));
+        assertThat(metadata.getComment(), is("This is a test audio file."));
+        assertThat(metadata.getTitle(), is("Sample OGG"));
+        assertThat(metadata.getYear(), is("2008"));
+    }
+
+    @Test
+    public void shouldBeAbleToLoadFlac() throws Exception {
+        AudioMetadata metadata = new AudioMetadata();
+
+        metadata.setInput(getTestAudio("sample.flac"));
+        assertTrue(metadata.check());
+
+        assertThat(metadata.getFormatName(), is("flac"));
+        assertThat(metadata.getMimeType(), is("audio/flac"));
+        assertThat(metadata.getBitrate(), is(429L));
+        assertThat(metadata.getSampleRate(), is(44100));
+        assertThat(metadata.getChannels(), is("2"));
+        assertThat(metadata.getLength(), is(2));
+        assertThat(metadata.getAlbum(), is("Badwater Slim Performs Live"));
+        assertThat(metadata.getAuthor(), is("Badwater Slim"));
+        assertThat(metadata.getComment(), is("This is a test audio file."));
+        assertThat(metadata.getTitle(), is("Sample FLAC"));
+        assertThat(metadata.getYear(), is("2008"));
+    }
 }

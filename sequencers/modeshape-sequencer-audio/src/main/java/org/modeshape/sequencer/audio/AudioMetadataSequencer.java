@@ -15,23 +15,24 @@
  */
 package org.modeshape.sequencer.audio;
 
-import static org.modeshape.sequencer.audio.AudioMetadataLexicon.ALBUM;
-import static org.modeshape.sequencer.audio.AudioMetadataLexicon.AUTHOR;
-import static org.modeshape.sequencer.audio.AudioMetadataLexicon.COMMENT;
-import static org.modeshape.sequencer.audio.AudioMetadataLexicon.METADATA_NODE;
-import static org.modeshape.sequencer.audio.AudioMetadataLexicon.TITLE;
-import static org.modeshape.sequencer.audio.AudioMetadataLexicon.YEAR;
-
 import java.io.IOException;
 import java.io.InputStream;
 
 import javax.jcr.Binary;
+import javax.jcr.ItemExistsException;
 import javax.jcr.NamespaceRegistry;
 import javax.jcr.Node;
+import javax.jcr.PathNotFoundException;
 import javax.jcr.Property;
 import javax.jcr.RepositoryException;
+import javax.jcr.lock.LockException;
+import javax.jcr.nodetype.ConstraintViolationException;
+import javax.jcr.nodetype.NoSuchNodeTypeException;
+import javax.jcr.version.VersionException;
 
 import org.modeshape.common.util.CheckArg;
+import org.modeshape.common.util.StringUtil;
+import org.modeshape.jcr.api.JcrConstants;
 import org.modeshape.jcr.api.nodetype.NodeTypeManager;
 import org.modeshape.jcr.api.sequencer.Sequencer;
 
@@ -43,11 +44,19 @@ import org.modeshape.jcr.api.sequencer.Sequencer;
  * <ul>
  * <li><strong>audio:metadata</strong> node of type <code>audio:metadata</code>
  * <ul>
+ * <li><strong>jcr:mimeType</strong> - optional string property for the mime type of the file</li>
+ * <li><strong>audio:bitrate</strong> option long property for specifying the bitrate</li>
+ * <li><strong>audio:sampleRate</strong> optional int property for specifying the sample rate</li>
+ * <li><strong>audio:channels</strong> optional string property for specifying the channel mode</li>
+ * <li><strong>audio:length</strong> optional int property specifying estimation of length</li>
+ * <li><strong>audio:tag</strong> - optional child node which contains additional id3 (or other) tag information (if available)</li>
+ * <ul>
  * <li><strong>audio:title</strong> - optional string property for the name of the audio file or recording</li>
  * <li><strong>audio:author</strong> - optional string property for the author of the recording</li>
  * <li><strong>audio:album</strong> - optional string property for the name of the album</li>
- * <li><strong>audio:year</strong> - optional integer property for the year the recording as created</li>
+ * <li><strong>audio:year</strong> - optional string property for the year the recording as created</li>
  * <li><strong>audio:comment</strong> - optional string property specifying a comment</li>
+ * </ul>
  * </ul>
  * </li>
  * </ul>
@@ -70,21 +79,51 @@ public class AudioMetadataSequencer extends Sequencer {
         CheckArg.isNotNull(binaryValue, "binary");
         AudioMetadata metadata = null;
         try (InputStream stream = binaryValue.getStream()) {
-            metadata = AudioMetadata.instance(stream);
+            metadata = new AudioMetadata();
+            metadata.setInput(stream);
+            metadata.check();
         }
         Node sequencedNode = outputNode;
         if (outputNode.isNew()) {
-            outputNode.setPrimaryType(METADATA_NODE);
+            outputNode.setPrimaryType(AudioMetadataLexicon.METADATA_NODE);
         } else {
-            sequencedNode = outputNode.addNode(METADATA_NODE, METADATA_NODE);
+            sequencedNode = outputNode.addNode(AudioMetadataLexicon.METADATA_NODE, AudioMetadataLexicon.METADATA_NODE);
         }
 
-        sequencedNode.setProperty(TITLE, metadata.getTitle());
-        sequencedNode.setProperty(AUTHOR, metadata.getAuthor());
-        sequencedNode.setProperty(ALBUM, metadata.getAlbum());
-        sequencedNode.setProperty(YEAR, metadata.getYear());
-        sequencedNode.setProperty(COMMENT, metadata.getComment());
+        sequencedNode.setProperty(AudioMetadataLexicon.FORMAT_NAME, metadata.getFormatName());
+        setPropertyIfMetadataPresent(sequencedNode, JcrConstants.JCR_MIME_TYPE, metadata.getMimeType());
+        setPropertyIfMetadataPresent(sequencedNode, AudioMetadataLexicon.BITRATE, metadata.getBitrate());
+        setPropertyIfMetadataPresent(sequencedNode, AudioMetadataLexicon.SAMPLE_RATE, metadata.getSampleRate());
+        setPropertyIfMetadataPresent(sequencedNode, AudioMetadataLexicon.CHANNELS, metadata.getChannels());
+        setPropertyIfMetadataPresent(sequencedNode, AudioMetadataLexicon.LENGTH, metadata.getLength());
 
+        addTagNode(sequencedNode, metadata);
         return true;
     }
+
+    private void addTagNode( Node sequencedNode,
+                             AudioMetadata metadata ) throws ItemExistsException, PathNotFoundException, NoSuchNodeTypeException, LockException, VersionException, ConstraintViolationException, RepositoryException {
+        Node tagNode = sequencedNode.addNode(AudioMetadataLexicon.TAG_NODE, AudioMetadataLexicon.TAG_NODE);
+
+        setPropertyIfMetadataPresent(tagNode, AudioMetadataLexicon.TITLE, metadata.getTitle());
+        setPropertyIfMetadataPresent(tagNode, AudioMetadataLexicon.AUTHOR, metadata.getAuthor());
+        setPropertyIfMetadataPresent(tagNode, AudioMetadataLexicon.ALBUM, metadata.getAlbum());
+        setPropertyIfMetadataPresent(tagNode, AudioMetadataLexicon.YEAR, metadata.getYear());
+        setPropertyIfMetadataPresent(tagNode, AudioMetadataLexicon.COMMENT, metadata.getComment());
+    }
+
+    private void setPropertyIfMetadataPresent(Node node, String propertyName, Object value) throws RepositoryException {
+        if (value != null) {
+            if (value instanceof String && !StringUtil.isBlank((String) value)) {
+                node.setProperty(propertyName, (String) value);
+            }
+            if (value instanceof Long) {
+                node.setProperty(propertyName, (Long) value);
+            }
+            if (value instanceof Integer) {
+                node.setProperty(propertyName, (Integer) value);
+            }
+        }
+    }
+
 }

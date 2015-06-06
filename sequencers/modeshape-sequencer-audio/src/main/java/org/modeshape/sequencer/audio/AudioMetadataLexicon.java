@@ -32,6 +32,15 @@ public class AudioMetadataLexicon {
     }
 
     public static final String METADATA_NODE = PREFIX + ":metadata";
+
+    public static final String FORMAT_NAME = PREFIX + ":formatName";
+    public static final String BITRATE = PREFIX + ":bitrate";
+    public static final String SAMPLE_RATE = PREFIX + ":sampleRate";
+    public static final String CHANNELS = PREFIX + ":channels";
+    public static final String LENGTH = PREFIX + ":length";
+
+    public static final String TAG_NODE = PREFIX + ":tag";
+
     public static final String TITLE = PREFIX + ":title";
     public static final String AUTHOR = PREFIX + ":author";
     public static final String ALBUM = PREFIX + ":album";
