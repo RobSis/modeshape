@@ -13,25 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.modeshape.sequencer.mp3;
+package org.modeshape.sequencer.audio;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+
 import java.io.InputStream;
+
 import org.junit.Test;
 
 /**
- * Unit test for {@link Mp3Metadata}
+ * Unit test for {@link AudioMetadata}
  */
-public class Mp3MetadataTest {
+public class AudioMetadataTest {
 
-    private InputStream getTestMp3( String resourcePath ) {
+    private InputStream getTestAudio( String resourcePath ) {
         return this.getClass().getClassLoader().getResourceAsStream(resourcePath);
     }
 
     @Test
-    public void shouldBeAbleToCreateMetadataForSample1() throws Exception {
-        Mp3Metadata metadata = Mp3Metadata.instance(getTestMp3("sample1.mp3"));
+    public void shouldBeAbleToLoadMp3() throws Exception {
+        AudioMetadata metadata = AudioMetadata.instance(getTestAudio("sample1.mp3"));
         assertThat(metadata.getAlbum(), is("Badwater Slim Performs Live"));
         assertThat(metadata.getAuthor(), is("Badwater Slim"));
         assertThat(metadata.getComment(), is("This is a test audio file."));

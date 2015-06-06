@@ -20,18 +20,18 @@
 <jcr='http://www.jcp.org/jcr/1.0'>
 <nt='http://www.jcp.org/jcr/nt/1.0'>
 <mix='http://www.jcp.org/jcr/mix/1.0'>
-<mp3='http://www.modeshape.org/mp3/1.0'>
+<audio='http://www.modeshape.org/audio/1.0'>
 
 
 //------------------------------------------------------------------------------
 // N O D E T Y P E S
 //------------------------------------------------------------------------------
 
-[mp3:metadata] > nt:unstructured, mix:mimeType
-  - mp3:title (string)
-  - mp3:author (string)
-  - mp3:album (string)
-  - mp3:year (long)
-  - mp3:comment (string)
- 
- 
+[audio:metadata] > nt:unstructured, mix:mimeType
+  - audio:title (string)
+  - audio:author (string)
+  - audio:album (string)
+  - audio:year (long)
+  - audio:comment (string)
+
+

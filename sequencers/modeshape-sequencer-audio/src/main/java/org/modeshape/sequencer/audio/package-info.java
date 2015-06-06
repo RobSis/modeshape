@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 /**
- * The classes that make up the MP3 file sequencer.
+ * The classes that make up the Ogg Vorbis file sequencer.
  */
 
-package org.modeshape.sequencer.mp3;
+package org.modeshape.sequencer.audio;
 

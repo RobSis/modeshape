@@ -13,21 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.modeshape.sequencer.mp3;
+package org.modeshape.sequencer.audio;
 
-import static org.modeshape.sequencer.mp3.Mp3MetadataLexicon.Namespace.PREFIX;
+import static org.modeshape.sequencer.audio.AudioMetadataLexicon.Namespace.PREFIX;
+
 import org.modeshape.common.annotation.Immutable;
 
 
 /**
- * A lexicon of names used within the mp3 sequencer.
+ * A lexicon of names used within audio sequencer.
  */
 @Immutable
-public class Mp3MetadataLexicon {
+public class AudioMetadataLexicon {
 
     public static class Namespace {
-        public static final String URI = "http://www.modeshape.org/mp3/1.0";
-        public static final String PREFIX = "mp3";
+        public static final String URI = "http://www.modeshape.org/audio/1.0";
+        public static final String PREFIX = "audio";
     }
 
     public static final String METADATA_NODE = PREFIX + ":metadata";

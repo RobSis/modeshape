@@ -13,25 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.modeshape.sequencer.mp3;
+package org.modeshape.sequencer.audio;
 
 import static org.jaudiotagger.tag.FieldKey.ALBUM;
 import static org.jaudiotagger.tag.FieldKey.ARTIST;
 import static org.jaudiotagger.tag.FieldKey.COMMENT;
 import static org.jaudiotagger.tag.FieldKey.TITLE;
 import static org.jaudiotagger.tag.FieldKey.YEAR;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.logging.Level;
+
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.tag.Tag;
 
 /**
- * Utility for extracting metadata from MP3 files.
+ * Utility for extracting metadata from audio files.
  */
-public class Mp3Metadata {
+public class AudioMetadata {
+
+    /**
+     * The names of the MIME types for all supported file formats.
+     */
+    static final String[] MIME_TYPE_STRINGS = {"audio/mpeg"};
 
     private String title;
     private String author;
@@ -39,13 +46,13 @@ public class Mp3Metadata {
     private String year;
     private String comment;
 
-    private Mp3Metadata() {
+    private AudioMetadata() {
 
     }
 
-    public static Mp3Metadata instance( InputStream stream ) throws Exception {
+    public static AudioMetadata instance( InputStream stream ) throws Exception {
 
-        Mp3Metadata me = null;
+        AudioMetadata me = null;
         File tmpFile = null;
         try {
             tmpFile = File.createTempFile("modeshape-sequencer-mp3", ".mp3");
@@ -59,7 +66,7 @@ public class Mp3Metadata {
             AudioFile f = AudioFileIO.read(tmpFile);
             Tag tag = f.getTag();
 
-            me = new Mp3Metadata();
+            me = new AudioMetadata();
 
             me.author = tag.getFirst(ARTIST);
             me.album = tag.getFirst(ALBUM);

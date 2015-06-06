@@ -87,7 +87,7 @@
         <module>modeshape-sequencer-java</module>
         <module>modeshape-sequencer-zip</module>
         <module>modeshape-sequencer-ddl</module>
-        <module>modeshape-sequencer-mp3</module>
+        <module>modeshape-sequencer-audio</module>
         <module>modeshape-sequencer-text</module>
         <module>modeshape-sequencer-sramp</module>
         <module>modeshape-sequencer-teiid</module>

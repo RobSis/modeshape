@@ -664,7 +664,7 @@ public class RepositoryConfiguration {
         String xsdSequencer = "org.modeshape.sequencer.xsd.XsdSequencer";
         String xmlSequencer = "org.modeshape.sequencer.xml.XmlSequencer";
         String zipSequencer = "org.modeshape.sequencer.zip.ZipSequencer";
-        String mp3Sequencer = "org.modeshape.sequencer.mp3.Mp3MetadataSequencer";
+        String audioSequencer = "org.modeshape.sequencer.audio.AudioMetadataSequencer";
         String fixedWidthTextSequencer = "org.modeshape.sequencer.text.FixedWidthTextSequencer";
         String delimitedTextSequencer = "org.modeshape.sequencer.text.DelimitedTextSequencer";
 
@@ -697,8 +697,8 @@ public class RepositoryConfiguration {
         aliases.put("xmlsequencer", xmlSequencer);
         aliases.put("zip", zipSequencer);
         aliases.put("zipsequencer", zipSequencer);
-        aliases.put("mp3", mp3Sequencer);
-        aliases.put("mp3sequencer", mp3Sequencer);
+        aliases.put("audio", audioSequencer);
+        aliases.put("audiosequencer", audioSequencer);
         aliases.put("fixedwidthtext", fixedWidthTextSequencer);
         aliases.put("fixedwidthtextsequencer", fixedWidthTextSequencer);
         aliases.put("delimitedtext", delimitedTextSequencer);

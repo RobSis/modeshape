@@ -8,10 +8,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <!-- The groupId and version values are inherited from parent -->
-    <artifactId>modeshape-sequencer-mp3</artifactId>
+    <artifactId>modeshape-sequencer-audio</artifactId>
     <packaging>jar</packaging>
-    <name>ModeShape Sequencer for MP3 Files</name>
-    <description>ModeShape Sequencer that processes MP3 audio files</description>
+    <name>ModeShape Sequencer for Audio Files</name>
+    <description>ModeShape Sequencer that processes various audio file formats</description>
     <url>http://www.modeshape.org</url>
     <dependencies>
         <dependency>

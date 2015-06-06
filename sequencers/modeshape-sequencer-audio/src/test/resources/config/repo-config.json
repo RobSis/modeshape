@@ -1,0 +1,15 @@
+{
+    "name" : "Audio file Sequencers Test Repository",
+    "sequencing" : {
+        "sequencers" : {
+            "Audio files in the same location" : {
+                "classname" : "org.modeshape.sequencer.audio.AudioMetadataSequencer",
+                "pathExpressions" : [ "default://(*.mp3)/jcr:content[@jcr:data]" ]
+            },
+            "Audio files in different location" : {
+                "classname" : "audio",
+                "pathExpressions" : [ "default://(*.mp3)/jcr:content[@jcr:data] => default:/sequenced/audio" ]
+            }
+        }
+    }
+}

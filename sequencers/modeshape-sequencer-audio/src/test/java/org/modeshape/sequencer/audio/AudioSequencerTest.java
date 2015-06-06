@@ -13,35 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.modeshape.sequencer.mp3;
+package org.modeshape.sequencer.audio;
 
 import static org.junit.Assert.assertEquals;
-import static org.modeshape.sequencer.mp3.Mp3MetadataLexicon.ALBUM;
-import static org.modeshape.sequencer.mp3.Mp3MetadataLexicon.AUTHOR;
-import static org.modeshape.sequencer.mp3.Mp3MetadataLexicon.COMMENT;
-import static org.modeshape.sequencer.mp3.Mp3MetadataLexicon.METADATA_NODE;
-import static org.modeshape.sequencer.mp3.Mp3MetadataLexicon.TITLE;
-import static org.modeshape.sequencer.mp3.Mp3MetadataLexicon.YEAR;
+import static org.modeshape.sequencer.audio.AudioMetadataLexicon.ALBUM;
+import static org.modeshape.sequencer.audio.AudioMetadataLexicon.AUTHOR;
+import static org.modeshape.sequencer.audio.AudioMetadataLexicon.COMMENT;
+import static org.modeshape.sequencer.audio.AudioMetadataLexicon.METADATA_NODE;
+import static org.modeshape.sequencer.audio.AudioMetadataLexicon.TITLE;
+import static org.modeshape.sequencer.audio.AudioMetadataLexicon.YEAR;
+
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
+
 import org.junit.Test;
 import org.modeshape.jcr.sequencer.AbstractSequencerTest;
 
 /**
- * Unit test for {@link Mp3MetadataSequencer}
+ * Unit test for {@link AudioMetadataSequencer}
  *
- * @author Horia Chiorean
  */
-public class Mp3SequencerTest extends AbstractSequencerTest {
-    
+public class AudioSequencerTest extends AbstractSequencerTest {
+
     @Test
     public void shouldSequenceMp3() throws Exception {
         createNodeWithContentFromFile("sample.mp3", "sample1.mp3");
-        
-        Node sequencedNodeSameLocation = getOutputNode(rootNode, "sample.mp3/" + Mp3MetadataLexicon.METADATA_NODE);
+
+        Node sequencedNodeSameLocation = getOutputNode(rootNode, "sample.mp3/" + AudioMetadataLexicon.METADATA_NODE);
         assertSequencedMp3(sequencedNodeSameLocation);
 
-        Node sequencedNodeDifferentLocation = getOutputNode(rootNode, "mp3s/sample.mp3");
+        Node sequencedNodeDifferentLocation = getOutputNode(rootNode, "sequenced/audio/sample.mp3");
         assertSequencedMp3(sequencedNodeDifferentLocation);
     }
 
