@@ -33,4 +33,13 @@ public class PdfMetadataLexicon {
 
     public static final String METADATA_NODE = PREFIX + ":metadata";
 
+    public static final String AUTHOR = PREFIX + ":author";
+    public static final String CREATION_DATE = PREFIX + ":creation_date";
+    public static final String CREATOR = PREFIX + ":creator";
+    public static final String KEYWORDS = PREFIX + ":keywords";
+    public static final String MODIFICATION_DATE = PREFIX + ":modification_date";
+    public static final String PRODUCER = PREFIX + ":producer";
+    public static final String SUBJECT = PREFIX + ":subject";
+    public static final String TITLE = PREFIX + ":title";
+    public static final String PAGES = PREFIX + ":pages";
 }

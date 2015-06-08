@@ -28,3 +28,12 @@
 //------------------------------------------------------------------------------
 
 [pdf:metadata] > nt:unstructured, mix:mimeType
+  - pdf:author (string)
+  - pdf:creation_date (date)
+  - pdf:creator (string)
+  - pdf:keywords (string)
+  - pdf:modification_date (date)
+  - pdf:producer (string)
+  - pdf:subject (string)
+  - pdf:title (string)
+  - pdf:pages (long)
